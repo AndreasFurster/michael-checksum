@@ -9,8 +9,8 @@ public class MichaelChecksum {
     }
 
     private void StartFileWatcher() {
-        // TODO ROY: Implement file watching. Call OnFileCreated() when a file is found.
-
+        FileWatcher fileWatcher = new FileWatcher();
+        fileWatcher.StartWatching(OnFileCreated);
     }
 
     private void OnFileCreated (){
