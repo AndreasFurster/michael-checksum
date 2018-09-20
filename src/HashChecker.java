@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 public class HashChecker {
     public Boolean CheckHash(URI fileUri, String hash) throws NoSuchAlgorithmException, IOException, IllegalArgumentException {
         File file = new File(fileUri);
-        System.out.println(hash.length());
 
         switch (hash.length()){
             // MD5 128 Bit

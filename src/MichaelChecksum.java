@@ -10,7 +10,7 @@ public class MichaelChecksum {
 
     private void StartFileWatcher() {
         FileWatcher fileWatcher = new FileWatcher();
-        fileWatcher.StartWatching(OnFileCreated);
+        fileWatcher.StartWatching();
     }
 
     private void OnFileCreated (){
