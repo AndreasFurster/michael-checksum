@@ -1,11 +1,21 @@
+import com.sun.org.apache.xml.internal.security.Init;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.Scanner;
 
-public class FileWatcher {
+public class FileWatcher extends MichaelChecksum {
     Path path = Paths.get(System.getProperty("user.home") + "\\Downloads\\");
     Scanner reader = new Scanner(System.in);
+    Initiator i = new Initiator();
+
+    FileWatcher(Responder r){
+
+        i.addListener(r);
+    }
 
     void StartWatching() {
         try {
@@ -16,6 +26,8 @@ public class FileWatcher {
             while (true) {
                 if (watchKey != null) {
                     watchKey.pollEvents().stream().forEach(event -> {
+
+                        i.fire();
                         System.out.println("What is your hash of: " + event.context());
                         String hash = reader.nextLine();
                         if (hash == "") {

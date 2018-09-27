@@ -9,11 +9,14 @@ public class MichaelChecksum {
     }
 
     private void StartFileWatcher() {
-        FileWatcher fileWatcher = new FileWatcher();
+
+        Responder r = new Responder();
+
+        FileWatcher fileWatcher = new FileWatcher(r);
         fileWatcher.StartWatching();
     }
 
-    private void OnFileCreated (){
+    void OnFileCreated (){
         // TODO ROY: Implement user input
 
         CheckHash("url", "hash");
