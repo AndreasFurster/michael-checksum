@@ -12,16 +12,15 @@ public class ApplicationManager extends Application  {
 
     public void initiate(String[] args){
         launch(args);
+
+        this.fileWatchingManager = new FileWatchingManager();
+        this.initiateFileWatchers();
     }
 
     @Override
     public void start(Stage primaryStage)  {
-        this.fileWatchingManager = new FileWatchingManager();
         this.fileValidationManager = new FileValidationManager();
         this.dashboardManager = new DashboardManager();
-
-
-        this.initiateFileWatchers();
 
         this.dashboardManager.openDashboard();
     }
