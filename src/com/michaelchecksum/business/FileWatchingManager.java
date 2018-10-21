@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileWatchingManager {
-    private ArrayList<FileWatcher> fileWatchers = new ArrayList<>();
     private ArrayList<FileEventListener> fileEventListeners =  new ArrayList<FileEventListener>();
 
     public void attachResponder(FileEventListener responder) {
@@ -22,14 +21,14 @@ public class FileWatchingManager {
 
         //foreach through the pathlist
         for(Path path : paths){
-            fileWatchers.add(new FileWatcher(path, this.fileEventListeners));
+            FileWatcher watcher = new FileWatcher(path, this.fileEventListeners);
+            watcher.start();
         }
     }
 
     //start a single watcher
     public void startSingleWatcher(Path path){
-        // TODO: add a single watcher
-
+        new FileWatcher(path, this.fileEventListeners).start();
     }
 }
 
