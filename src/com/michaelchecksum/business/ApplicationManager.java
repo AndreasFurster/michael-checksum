@@ -16,16 +16,14 @@ public class ApplicationManager extends Application  {
 
     @Override
     public void start(Stage primaryStage)  {
-        fileWatchingManager = new FileWatchingManager();
-        fileValidationManager = new FileValidationManager();
-        dashboardManager = new DashboardManager();
+        this.fileWatchingManager = new FileWatchingManager();
+        this.fileValidationManager = new FileValidationManager();
+        this.dashboardManager = new DashboardManager();
 
 
         this.initiateFileWatchers();
 
-        dashboardManager.openDashboard();
-
-        fileValidationManager.handleNewFileFound(new File("C:\\Users\\andre\\Downloads\\vlc-3.0.4-win64.exe"));
+        this.dashboardManager.openDashboard();
     }
 
     private void initiateFileWatchers(){
