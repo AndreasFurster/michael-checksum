@@ -36,7 +36,7 @@ public class FileWatcher {
             }
         }
         catch (Exception e){
-            //do something with error message
+            throw new RuntimeException(e);
         }
     }
 }
