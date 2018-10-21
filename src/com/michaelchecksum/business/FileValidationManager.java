@@ -1,4 +1,4 @@
 package com.michaelchecksum.business;
 
-public class FileValidationManager {
+public class FileValidationManager implements FileEventListener {
 }

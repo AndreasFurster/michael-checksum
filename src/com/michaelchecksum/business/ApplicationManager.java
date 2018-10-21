@@ -18,13 +18,14 @@ public class ApplicationManager extends Application  {
         fileValidationManager = new FileValidationManager();
         dashboardManager = new DashboardManager();
 
-        this.initiateFileWatcher();
+        this.initiateFileWatchers();
+
         this.openDashboard();
     }
 
-    private void initiateFileWatcher(){
-        // TODO: Attatch FileValidationManager to FileWatchingManager
-        // TODO: FileWatchingManager.StartWatchers()
+    private void initiateFileWatchers(){
+        this.fileWatchingManager.attatchResponer(this.fileValidationManager);
+        this.fileWatchingManager.startWatchers();
     }
 
     private void openDashboard(){
