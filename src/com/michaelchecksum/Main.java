@@ -1,11 +1,10 @@
 package com.michaelchecksum;
 
-import com.michaelchecksum.business.AppManager;
+import com.michaelchecksum.business.ApplicationManager;
 
 public class Main {
 
     public static void main(String[] args) {
-        AppManager app = new AppManager();
-        app.Start();
+        new ApplicationManager().initiate(args);
     }
 }
