@@ -15,8 +15,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class FileValidationManager implements FileEventListener {
-    private FileValidation gui;
+    private FileValidation fileValidation;
     private FileValidationViewModel viewModel;
+    private FileValidationResult fileValidationResult;
+    private FileValidationResultViewModel fileValidationResultViewModel;
 
     FileValidationManager (){
         this.viewModel = new FileValidationViewModel();
@@ -41,22 +43,22 @@ public class FileValidationManager implements FileEventListener {
     }
 
     public void validateFile(File file){
-        this.gui = new FileValidation();
-        this.gui.initializeComponent(this.viewModel);
+        this.fileValidation = new FileValidation();
+        this.fileValidation.initializeComponent(this.viewModel);
 
         this.viewModel.setFile(file);
 
-        this.gui.show();
-        this.gui.setAlwaysOnTop(true);
+        this.fileValidation.show();
+        this.fileValidation.setAlwaysOnTop(true);
     }
 
     private void closeGui() {
-        this.gui.close();
+        this.fileValidation.close();
     }
 
     private void validateChecksum() {
-        FileValidationResult fileValidationResult = new FileValidationResult();
-        FileValidationResultViewModel fileValidationResultViewModel = new FileValidationResultViewModel();
+        this.fileValidationResult = new FileValidationResult();
+        this.fileValidationResultViewModel = new FileValidationResultViewModel();
         fileValidationResult.initializeComponent(fileValidationResultViewModel);
 
         try {
@@ -71,7 +73,9 @@ public class FileValidationManager implements FileEventListener {
             fileValidationResultViewModel.setValidationErrorMessage(e.getMessage());
         }
         finally {
-            fileValidationResult.show();
+            this.fileValidation.close();
+            this.fileValidationResult.show();
+            this.fileValidation.setAlwaysOnTop(true);
         }
     }
 
