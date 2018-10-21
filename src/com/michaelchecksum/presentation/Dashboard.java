@@ -1,21 +1,61 @@
 package com.michaelchecksum.presentation;
 
 
+import com.michaelchecksum.domain.viewmodels.DashboardViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.util.converter.NumberStringConverter;
 
 
 public class Dashboard extends Stage {
-    public void initializeComponent(){
-        this.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(event -> System.out.println("Hello World!"));
+    private DashboardViewModel viewModel;
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+    public void initializeComponent(DashboardViewModel viewModel){
+        this.setTitle("Dashboard");
+
+        // Create label for success values
+        Label successLabel = new Label();
+
+        // Convert the DoubleProperty in viewModel to StringProperty
+        StringProperty successAmountString = new SimpleStringProperty();
+        Bindings.bindBidirectional(successAmountString, viewModel.successAmountProperty(), new NumberStringConverter());
+
+        // Bind new StringProperty to textProperty of label
+        successLabel.textProperty().bind(successAmountString);
+
+        // Create label for success values
+        Label failedLabel = new Label();
+
+        // Convert the DoubleProperty in viewModel to StringProperty
+        StringProperty failedAmountString = new SimpleStringProperty();
+        Bindings.bindBidirectional(failedAmountString, viewModel.failedAmountProperty(), new NumberStringConverter());
+
+        // Bind new StringProperty to textProperty of label
+        failedLabel.textProperty().bind(failedAmountString);
+
+        // Create label for success values
+        Label totalLabel = new Label();
+
+        // Convert the DoubleProperty in viewModel to StringProperty
+        StringProperty totalAmountString = new SimpleStringProperty();
+        Bindings.bindBidirectional(totalAmountString, viewModel.totalAmountProperty(), new NumberStringConverter());
+
+        // Bind new StringProperty to textProperty of label
+        totalLabel.textProperty().bind(totalAmountString);
+
+        // Add label
+        VBox root = new VBox(3);
+
+        root.getChildren().add(successLabel);
+        root.getChildren().add(failedLabel);
+        root.getChildren().add(totalLabel);
+
         this.setScene(new Scene(root, 300, 250));
     }
 
