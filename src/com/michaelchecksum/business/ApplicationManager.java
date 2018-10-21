@@ -11,8 +11,9 @@ public class ApplicationManager extends Application  {
     private DashboardManager dashboardManager;
 
     public void initiate(String[] args){
-        // this.fileWatchingManager = new FileWatchingManager();
-        // this.initiateFileWatchers();
+        this.fileValidationManager = new FileValidationManager();
+        this.fileWatchingManager = new FileWatchingManager();
+        this.initiateFileWatchers();
 
         launch(args);
 
@@ -20,11 +21,9 @@ public class ApplicationManager extends Application  {
 
     @Override
     public void start(Stage primaryStage)  {
-        this.fileValidationManager = new FileValidationManager();
         this.dashboardManager = new DashboardManager();
 
         this.dashboardManager.openDashboard();
-        this.fileValidationManager.handleNewFileFound(new File("C:\\Users\\andre\\Downloads\\vlc-3.0.4-win64.exe"));
     }
 
     private void initiateFileWatchers(){

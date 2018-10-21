@@ -18,14 +18,12 @@ public class FileValidationManager implements FileEventListener {
     private FileValidation gui;
     private FileValidationViewModel viewModel;
 
-    FileValidationManager() {
-        this.gui = new FileValidation();
+    FileValidationManager (){
         this.viewModel = new FileValidationViewModel();
-
         this.viewModel.setOnConfirmClickEventHandler(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                validateFile();
+                validateChecksum();
             }
         });
 
@@ -39,16 +37,24 @@ public class FileValidationManager implements FileEventListener {
 
     @Override
     public void handleNewFileFound(File file) {
+        validateFile(file);
+    }
+
+    public void validateFile(File file){
+        this.gui = new FileValidation();
         this.gui.initializeComponent(this.viewModel);
+
         this.viewModel.setFile(file);
+
         this.gui.show();
+        this.gui.setAlwaysOnTop(true);
     }
 
     private void closeGui() {
         this.gui.close();
     }
 
-    private void validateFile() {
+    private void validateChecksum() {
         FileValidationResult fileValidationResult = new FileValidationResult();
         FileValidationResultViewModel fileValidationResultViewModel = new FileValidationResultViewModel();
         fileValidationResult.initializeComponent(fileValidationResultViewModel);
