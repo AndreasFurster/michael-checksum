@@ -9,6 +9,7 @@ public class ApplicationManager extends Application  {
     private DashboardManager dashboardManager;
 
     public void initiate(String[] args){
+        this.fileValidationManager = new FileValidationManager();
         this.fileWatchingManager = new FileWatchingManager();
         this.initiateFileWatchers();
 
@@ -18,7 +19,6 @@ public class ApplicationManager extends Application  {
 
     @Override
     public void start(Stage primaryStage)  {
-        this.fileValidationManager = new FileValidationManager();
         this.dashboardManager = new DashboardManager();
 
         this.dashboardManager.openDashboard();
