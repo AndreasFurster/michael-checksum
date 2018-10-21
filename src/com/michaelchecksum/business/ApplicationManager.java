@@ -3,6 +3,8 @@ package com.michaelchecksum.business;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class ApplicationManager extends Application  {
     private FileWatchingManager fileWatchingManager;
     private FileValidationManager fileValidationManager;
@@ -18,9 +20,12 @@ public class ApplicationManager extends Application  {
         fileValidationManager = new FileValidationManager();
         dashboardManager = new DashboardManager();
 
+
         this.initiateFileWatchers();
 
         dashboardManager.openDashboard();
+
+        fileValidationManager.handleNewFileFound(new File("C:\\Users\\andre\\Downloads\\vlc-3.0.4-win64.exe"));
     }
 
     private void initiateFileWatchers(){
