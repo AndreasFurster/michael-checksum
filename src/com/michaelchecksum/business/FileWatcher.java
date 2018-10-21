@@ -23,7 +23,7 @@ public class FileWatcher {
             while(true){
                 if (watchKey != null) {
                     watchKey.pollEvents().stream().forEach(event -> {
-                        //there has to be a pop up here\
+                        //there has to be a pop up here
                         String filePath = this.path + event.context().toString();
                         File file = new File(filePath);
                         for(FileEventListener fileEventListener : fileEventListeners){

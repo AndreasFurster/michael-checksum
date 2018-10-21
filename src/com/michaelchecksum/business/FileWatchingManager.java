@@ -10,10 +10,6 @@ public class FileWatchingManager {
     private ArrayList<FileWatcher> fileWatchers = new ArrayList<>();
     private ArrayList<FileEventListener> fileEventListeners =  new ArrayList<FileEventListener>();
 
-    public FileWatchingManager() {
-    }
-
-
     public void attachResponder(FileEventListener responder) {
         this.fileEventListeners.add(responder);
     }
