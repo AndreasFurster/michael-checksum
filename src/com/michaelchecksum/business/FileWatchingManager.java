@@ -1,4 +1,5 @@
 package com.michaelchecksum.business;
 
-public class HashManager {
+public class FileWatchingManager {
+
 }

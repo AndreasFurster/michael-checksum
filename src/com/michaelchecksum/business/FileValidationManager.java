@@ -1,5 +1,4 @@
 package com.michaelchecksum.business;
 
-public class FileWatcherManager {
-
+public class FileValidationManager {
 }

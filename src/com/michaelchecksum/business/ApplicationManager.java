@@ -3,17 +3,9 @@ package com.michaelchecksum.business;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class ApplicationManager extends Application  {
-    private FileWatcherManager fileWatcherManager;
-    private HashManager hashManager;
+    private FileWatchingManager fileWatchingManager;
+    private FileValidationManager fileValidationManager;
     private DashboardManager dashboardManager;
 
     public void initiate(String[] args){
@@ -22,8 +14,8 @@ public class ApplicationManager extends Application  {
 
     @Override
     public void start(Stage primaryStage)  {
-        fileWatcherManager = new FileWatcherManager();
-        hashManager = new HashManager();
+        fileWatchingManager = new FileWatchingManager();
+        fileValidationManager = new FileValidationManager();
         dashboardManager = new DashboardManager();
 
         this.initiateFileWatcher();
@@ -31,8 +23,8 @@ public class ApplicationManager extends Application  {
     }
 
     private void initiateFileWatcher(){
-        // TODO: Attatch HashManager to FileWatcherManager
-        // TODO: FileWatcherManager.StartWatchers()
+        // TODO: Attatch FileValidationManager to FileWatchingManager
+        // TODO: FileWatchingManager.StartWatchers()
     }
 
     private void openDashboard(){
