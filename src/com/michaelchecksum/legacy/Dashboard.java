@@ -1,3 +1,5 @@
+package com.michaelchecksum.legacy;
+
 import javax.swing.*;
 
 public class Dashboard extends JFrame {

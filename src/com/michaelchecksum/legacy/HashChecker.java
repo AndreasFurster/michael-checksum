@@ -1,3 +1,5 @@
+package com.michaelchecksum.legacy;
+
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.io.File;
