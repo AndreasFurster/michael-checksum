@@ -7,9 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 import javafx.util.converter.NumberStringConverter;
 
 
@@ -29,7 +28,7 @@ public class Dashboard extends Stage {
         // Bind new StringProperty to textProperty of label
         successLabel.textProperty().bind(successAmountString);
 
-        // Create label for success values
+        // Create label for failed values
         Label failedLabel = new Label();
 
         // Convert the DoubleProperty in viewModel to StringProperty
@@ -39,7 +38,7 @@ public class Dashboard extends Stage {
         // Bind new StringProperty to textProperty of label
         failedLabel.textProperty().bind(failedAmountString);
 
-        // Create label for success values
+        // Create label for total values
         Label totalLabel = new Label();
 
         // Convert the DoubleProperty in viewModel to StringProperty
@@ -50,7 +49,7 @@ public class Dashboard extends Stage {
         totalLabel.textProperty().bind(totalAmountString);
 
         // Add label
-        VBox root = new VBox(3);
+        HBox root = new HBox(3);
 
         root.getChildren().add(successLabel);
         root.getChildren().add(failedLabel);

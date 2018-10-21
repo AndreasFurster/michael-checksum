@@ -20,17 +20,11 @@ public class ApplicationManager extends Application  {
 
         this.initiateFileWatchers();
 
-        this.openDashboard();
-    }
-
-    private void initiateFileWatchers(){
-        this.fileWatchingManager.attatchResponer(this.fileValidationManager);
-        this.fileWatchingManager.startWatchers();
-    }
-
-    private void openDashboard(){
         dashboardManager.openDashboard();
     }
 
-
+    private void initiateFileWatchers(){
+        this.fileWatchingManager.attachResponder(this.fileValidationManager);
+        this.fileWatchingManager.startWatchers();
+    }
 }

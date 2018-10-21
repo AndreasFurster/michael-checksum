@@ -1,8 +1,14 @@
 package com.michaelchecksum.business;
 
+import java.io.File;
+
 public class FileWatchingManager {
 
-    public void attatchResponer(FileEventListener responder) {
+    public void addFilewatcher(){
+
+    }
+
+    public void attachResponder(FileEventListener responder) {
         // TODO: Add responder to responder list
     }
 
@@ -12,5 +18,5 @@ public class FileWatchingManager {
 }
 
 interface FileEventListener {
-    void NewFileFound();
+    void handleNewFileFound(File file);
 }
