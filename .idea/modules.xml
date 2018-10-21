@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/quicksum.iml" filepath="$PROJECT_DIR$/quicksum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/michaelChecksum.iml" filepath="$PROJECT_DIR$/michaelChecksum.iml" />
     </modules>
   </component>
 </project>
