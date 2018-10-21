@@ -10,6 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class FileValidation extends Stage {
     public void initializeComponent(FileValidationViewModel viewModel) {
         this.setTitle("New file found");
@@ -26,15 +33,18 @@ public class FileValidation extends Stage {
         filenameBox.getChildren().add(filename);
 
         javafx.scene.control.TextField hashTextField = new javafx.scene.control.TextField();
+        hashTextField.textProperty().bindBidirectional(viewModel.hashProperty());
 
         HBox actions = new HBox(10);
         javafx.scene.control.Button confirm = new javafx.scene.control.Button("Confirm");
-        // confirm.onMouseClickedProperty().bindBidirectional(viewModel );
+        confirm.setOnMouseClicked(viewModel.onConfirmClick());
 
         actions.getChildren().add(confirm);
 
         javafx.scene.control.Button cancel = new javafx.scene.control.Button("Cancel");
         actions.getChildren().add(cancel);
+        cancel.setOnMouseClicked(viewModel.onCancelClick());
+
 
         // Add label
         VBox root = new VBox(3);

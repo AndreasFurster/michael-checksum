@@ -5,28 +5,60 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.beans.EventHandler;
+import java.io.File;
+
 
 public class FileValidationViewModel {
+
+    private File file;
     private StringProperty filePath = new SimpleStringProperty();
+    private StringProperty hash = new SimpleStringProperty();
 
-    private EventHandler onConfirmClick;
+    private EventHandler<MouseEvent> onConfirmClick;
+    private EventHandler<MouseEvent> onCancelClick;
 
-    public void setFilePath(String filePath) {
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+        this.setFilePath(file.getPath());
+    }
+
+    public String getHash() {
+        return hash.get();
+    }
+
+    private void setFilePath(String filePath) {
         this.filePath.set(filePath);
     }
 
-    public void SetOnConfirmClick(EventHandler event){
-        this.onConfirmClick = event;
+    public void setOnConfirmClickEventHandler(EventHandler<MouseEvent> eventHandler) {
+        this.onConfirmClick = eventHandler;
     }
 
+    public void setOnCancelClickEventHandler(EventHandler<MouseEvent> eventHandler) {
+        this.onCancelClick = eventHandler;
+    }
 
 
     public StringProperty filePath() {
         return filePath;
     }
 
+    public StringProperty hashProperty() {
+        return hash;
+    }
+
+    public EventHandler<MouseEvent> onConfirmClick() {
+        return this.onConfirmClick;
+    }
+
+    public EventHandler<MouseEvent> onCancelClick() {
+        return this.onCancelClick;
+    }
 }
