@@ -16,15 +16,14 @@ public class FileWatcher extends Thread {
     private WatchKey watchKey;
     private ArrayList<FileEventListener> fileEventListeners;
 
-    FileWatcher(Path path, ArrayList<FileEventListener> fileEventListeners){
+    FileWatcher(Path path, ArrayList<FileEventListener> fileEventListeners) {
         this.path = path;
         this.fileEventListeners = fileEventListeners;
 
         try {
             WatchService watchService = path.getFileSystem().newWatchService();
             this.watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -32,7 +31,7 @@ public class FileWatcher extends Thread {
     @Override
     public void run() {
         //start file watching
-        while(true){
+        while (true) {
             if (watchKey != null) {
                 watchKey.pollEvents().stream().forEach(event -> {
                     //there has to be a pop up here

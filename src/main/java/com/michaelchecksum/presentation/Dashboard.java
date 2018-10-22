@@ -15,7 +15,7 @@ import javafx.util.converter.NumberStringConverter;
 public class Dashboard extends Stage {
     private DashboardViewModel viewModel;
 
-    public void initializeComponent(DashboardViewModel viewModel){
+    public void initializeComponent(DashboardViewModel viewModel) {
         this.setTitle("Dashboard");
 
         // Create label for success values

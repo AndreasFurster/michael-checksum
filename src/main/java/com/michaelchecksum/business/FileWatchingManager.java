@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileWatchingManager {
-    private ArrayList<FileEventListener> fileEventListeners =  new ArrayList<FileEventListener>();
+    private ArrayList<FileEventListener> fileEventListeners = new ArrayList<FileEventListener>();
 
     public void attachResponder(FileEventListener responder) {
         this.fileEventListeners.add(responder);
@@ -20,14 +20,14 @@ public class FileWatchingManager {
         paths.add(Paths.get(System.getProperty("user.home") + "\\Downloads\\"));
 
         //foreach through the pathlist
-        for(Path path : paths){
+        for (Path path : paths) {
             FileWatcher watcher = new FileWatcher(path, this.fileEventListeners);
             watcher.start();
         }
     }
 
     //start a single watcher
-    public void startSingleWatcher(Path path){
+    public void startSingleWatcher(Path path) {
         new FileWatcher(path, this.fileEventListeners).start();
     }
 }

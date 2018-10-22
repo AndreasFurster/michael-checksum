@@ -7,8 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class FileValidationResult extends Stage {
-    public void initializeComponent(FileValidationResultViewModel viewModel){
-
+    public void initializeComponent(FileValidationResultViewModel viewModel) {
 
 
         HBox root = new HBox(3);

@@ -24,15 +24,14 @@ public class FileValidationResultViewModel {
         setResultMessage();
     }
 
-    public StringProperty resultMessage(){
+    public StringProperty resultMessage() {
         return this.resultMessage;
     }
 
-    private void setResultMessage(){
-        if(validationErrorPresent){
+    private void setResultMessage() {
+        if (validationErrorPresent) {
             resultMessage.set("An error has occured: " + validationErrorMessage);
-        }
-        else {
+        } else {
             resultMessage.set("Result: " + (success ? "SUCCESS" : "FAILED"));
         }
     }

@@ -5,12 +5,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class ApplicationManager extends Application  {
+public class ApplicationManager extends Application {
     private FileWatchingManager fileWatchingManager;
     private FileValidationManager fileValidationManager;
     private DashboardManager dashboardManager;
 
-    public void initiate(String[] args){
+    public void initiate(String[] args) {
         this.fileValidationManager = new FileValidationManager();
         this.fileWatchingManager = new FileWatchingManager();
         this.initiateFileWatchers();
@@ -20,13 +20,13 @@ public class ApplicationManager extends Application  {
     }
 
     @Override
-    public void start(Stage primaryStage)  {
+    public void start(Stage primaryStage) {
         this.dashboardManager = new DashboardManager();
 
         this.dashboardManager.openDashboard();
     }
 
-    private void initiateFileWatchers(){
+    private void initiateFileWatchers() {
         this.fileWatchingManager.attachResponder(this.fileValidationManager);
         this.fileWatchingManager.startWatchers();
     }

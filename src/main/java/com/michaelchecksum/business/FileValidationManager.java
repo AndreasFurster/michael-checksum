@@ -20,7 +20,7 @@ public class FileValidationManager implements FileEventListener {
     private FileValidationResult fileValidationResult;
     private FileValidationResultViewModel fileValidationResultViewModel;
 
-    FileValidationManager (){
+    FileValidationManager() {
         this.viewModel = new FileValidationViewModel();
         this.viewModel.setOnConfirmClickEventHandler(new EventHandler<MouseEvent>() {
             @Override
@@ -42,7 +42,7 @@ public class FileValidationManager implements FileEventListener {
         validateFile(file);
     }
 
-    public void validateFile(File file){
+    public void validateFile(File file) {
         this.fileValidation = new FileValidation();
         this.fileValidation.initializeComponent(this.viewModel);
 
@@ -71,8 +71,7 @@ public class FileValidationManager implements FileEventListener {
         } catch (IOException e) {
             fileValidationResultViewModel.setValidationErrorPresent(true);
             fileValidationResultViewModel.setValidationErrorMessage(e.getMessage());
-        }
-        finally {
+        } finally {
             this.fileValidation.close();
             this.fileValidationResult.show();
             this.fileValidation.setAlwaysOnTop(true);
@@ -83,7 +82,7 @@ public class FileValidationManager implements FileEventListener {
         if (hash == null)
             throw new IllegalArgumentException("There is no hash supplied");
 
-        switch (hash.length()){
+        switch (hash.length()) {
             // MD5 128 Bit
             case 128 / 4:
                 return validateChecksum("MD5", file, hash);
@@ -104,8 +103,7 @@ public class FileValidationManager implements FileEventListener {
         throw new IllegalArgumentException("The supplied hash is unsupported");
     }
 
-    private boolean validateChecksum(String hashType, File file, String hash) throws IOException, NoSuchAlgorithmException
-    {
+    private boolean validateChecksum(String hashType, File file, String hash) throws IOException, NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance(hashType);
 
         //Get file input stream for reading the file content
@@ -118,7 +116,8 @@ public class FileValidationManager implements FileEventListener {
         //Read file data and update in message digest
         while ((bytesCount = fis.read(byteArray)) != -1) {
             digest.update(byteArray, 0, bytesCount);
-        };
+        }
+        ;
 
         //close the stream; We don't need it now.
         fis.close();
@@ -129,8 +128,7 @@ public class FileValidationManager implements FileEventListener {
         //This bytes[] has bytes in decimal format;
         //Convert it to hexadecimal format
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i< bytes.length ;i++)
-        {
+        for (int i = 0; i < bytes.length; i++) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
 
