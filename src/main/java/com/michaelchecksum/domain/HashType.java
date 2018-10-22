@@ -1,5 +1,7 @@
 package com.michaelchecksum.domain;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 public enum HashType {
     MD5(1, "MD5"),
     SHA1(2, "SHA-1"),
@@ -12,6 +14,16 @@ public enum HashType {
     HashType(int value, String name) {
         this.value = value;
         this.name = name;
+    }
+
+    public static HashType from(int hashTypeInt) {
+        for (HashType hashType : HashType.values()) {
+            if (hashType.value == hashTypeInt) {
+               return hashType;
+            }
+        }
+
+        throw new IllegalArgumentException("Hashtype of value " + hashTypeInt + " does not exist.");
     }
 
     public int getValue(){

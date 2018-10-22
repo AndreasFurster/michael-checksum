@@ -2,6 +2,7 @@ package com.michaelchecksum.presentation;
 
 
 import com.michaelchecksum.domain.viewmodels.DashboardViewModel;
+import com.michaelchecksum.domain.viewmodels.ValidationResultViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -10,6 +11,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -29,10 +33,12 @@ public class DashboardUi extends Stage {
 
         this.setToolbar();
         this.setStatistics();
+        this.setTotals();
 
         this.root.setAlignment(Pos.TOP_CENTER);
         this.setScene(new Scene(this.root, 800, 500));
     }
+
 
     private void setToolbar(){
         Button settingsButton = new Button("Settings");
@@ -46,7 +52,32 @@ public class DashboardUi extends Stage {
         this.root.getChildren().add(toolbar);
     }
 
-    private void setStatistics(){
+    private void setStatistics() {
+        TableView<ValidationResultViewModel> tableView = new TableView<>();
+
+        TableColumn usernameCol = new TableColumn("Username");
+        usernameCol.setMinWidth(100);
+        usernameCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("username"));
+
+        TableColumn hashTypeCol = new TableColumn("Hash type");
+        hashTypeCol.setMinWidth(100);
+        hashTypeCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("hashType"));
+
+        TableColumn fileNameCol = new TableColumn("File name");
+        fileNameCol.setMinWidth(300);
+        fileNameCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("fileName"));
+
+        TableColumn succeedCol = new TableColumn("Succeed");
+        succeedCol.setMinWidth(100);
+        succeedCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("succeed"));
+
+        tableView.setItems(viewModel.validationResults());
+        tableView.getColumns().addAll(usernameCol, hashTypeCol, fileNameCol, succeedCol);
+
+        this.root.getChildren().add(tableView);
+    }
+
+    private void setTotals(){
         Font statisticsFont = Font.font(20);
 
         // Create label for success values

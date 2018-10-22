@@ -9,6 +9,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -44,6 +45,14 @@ public class FileValidationStorage {
         }
     }
 
+    public Iterable<FileValidationResult> getAll() {
+        try(Database database = new Database()) {
+            return database.selectAllValidationResults();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String getUserLocale() throws IOException {
         InputStream resultStream = new URL("http://api.ipstack.com/check?access_key=457379d7bf9e2bb49147f06a0043aea2").openStream();
         String json = this.readInputStream(resultStream);
@@ -61,4 +70,5 @@ public class FileValidationStorage {
 
         return buf.toString("UTF-8");
     }
+
 }

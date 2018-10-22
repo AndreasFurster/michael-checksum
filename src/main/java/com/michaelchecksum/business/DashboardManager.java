@@ -1,14 +1,21 @@
 package com.michaelchecksum.business;
 
+import com.michaelchecksum.data.FileValidationStorage;
+import com.michaelchecksum.domain.FileValidationResult;
+import com.michaelchecksum.domain.HashType;
 import com.michaelchecksum.domain.viewmodels.DashboardViewModel;
+import com.michaelchecksum.domain.viewmodels.ValidationResultViewModel;
 import com.michaelchecksum.presentation.DashboardUi;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+
+import java.util.ArrayList;
 
 class DashboardManager {
     private DashboardUi gui;
     private DashboardViewModel viewModel;
     private SettingManager settingManager = new SettingManager();
+    private FileValidationStorage fileValidationStorage = new FileValidationStorage();
 
     DashboardManager() {
         this.gui = new DashboardUi();
@@ -29,9 +36,12 @@ class DashboardManager {
     }
 
     private void loadStatistics() {
-        // TODO: Load data from database
-        this.viewModel.setSuccess(20);
-        this.viewModel.setFailedAmount(10);
-        this.viewModel.setTotalAmount(30);
+        Iterable<FileValidationResult> validationResults = this.fileValidationStorage.getAll();
+
+        for (FileValidationResult validationResult : validationResults) {
+            ValidationResultViewModel validationResultViewModel = new ValidationResultViewModel(validationResult.getUsername(), validationResult.getHashType(), validationResult.getFileName(), validationResult.getSuccess());
+
+            this.viewModel.addValidationResult(validationResultViewModel);
+        }
     }
 }

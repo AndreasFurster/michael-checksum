@@ -147,6 +147,6 @@ public class FileValidationManager implements FileEventListener {
 
         boolean result = sb.toString().equals(hash);
 
-        return new FileValidationResult(file, hash, hashType, result);
+        return new FileValidationResult(file.getName(), hash, hashType, result);
     }
 }
