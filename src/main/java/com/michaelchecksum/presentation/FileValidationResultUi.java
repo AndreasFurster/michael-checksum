@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class FileValidationResult extends Stage {
+public class FileValidationResultUi extends Stage {
     public void initializeComponent(FileValidationResultViewModel viewModel) {
 
 
