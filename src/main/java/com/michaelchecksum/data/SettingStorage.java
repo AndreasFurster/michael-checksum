@@ -17,6 +17,10 @@ public class SettingStorage {
     private Settings settings = new Settings("",new ArrayList<>());
     private ArrayList<Path> paths = new ArrayList<>();
 
+    public SettingStorage() {
+        this(Paths.get(System.getProperty("user.dir") + "\\settings.json"));
+    }
+
     public SettingStorage(Path location) {
         this.location = location;
         File file = new File(location.toString());
