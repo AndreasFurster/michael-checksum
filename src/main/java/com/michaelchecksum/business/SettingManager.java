@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SettingManager {
-    private SettingStorage  settingStorage = new SettingStorage(Paths.get(System.getProperty("user.dir") + "\\settings.json"));
+    private SettingStorage settingStorage = new SettingStorage();
     private SettingsUi gui;
     private SettingsViewModel viewModel;
 
@@ -25,17 +25,44 @@ public class SettingManager {
     }
 
     public void addPathToSettings(String path){
-        this.settingStorage.insertFilewatchPath(path);
+        if(this.settingStorage.insertFilewatchPath(path)){
+            try {
+                this.viewModel.setPaths(this.settingStorage.getFilewatchPaths());
+            }
+            catch(IOException ex){
+                System.out.println(ex);
+            }
+        }
+    }
+
+    public void deletePathFromSettings(String path){
+        if(this.settingStorage.deleteFilewatchPath(path)){
+            try {
+                this.viewModel.setPaths(this.settingStorage.getFilewatchPaths());
+            }
+            catch(IOException ex){
+                System.out.println(ex);
+            }
+        }
     }
 
     public void openSettings() {
         this.viewModel.setOnSettingsAddEventHandler(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t ) {
-                // TODO: HANDLE IT PROPERLY;
                 Button btn = (Button) t.getSource();
                 String path = btn.getId();
                 addPathToSettings(path);
+            }
+        });
+
+        this.viewModel.setOnSettingsDeleteEventHandler(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+
+                Button btn = (Button) t.getSource();
+                String path = btn.getId();
+                deletePathFromSettings(path);
             }
         });
         this.gui.initializeComponent(this.viewModel);
@@ -46,7 +73,6 @@ public class SettingManager {
 
     public ArrayList<String> getSettings() {
         try {
-            this.viewModel.setPaths(settingStorage.getFilewatchPaths());
             return settingStorage.getFilewatchPaths();
         }
         catch(IOException exception){
