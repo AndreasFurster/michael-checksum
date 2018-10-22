@@ -29,7 +29,6 @@ public class SettingManager {
     }
 
     public void openSettings() {
-        this.viewModel.setPaths(this.getSettings());
         this.viewModel.setOnSettingsAddEventHandler(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t ) {
@@ -40,6 +39,7 @@ public class SettingManager {
             }
         });
         this.gui.initializeComponent(this.viewModel);
+        this.viewModel.setPaths(this.getSettings());
         this.gui.show();
     }
 
@@ -52,6 +52,6 @@ public class SettingManager {
         catch(IOException exception){
             System.out.println(exception.toString());
         }
-        return new ArrayList<>();
+        return null;
     }
 }

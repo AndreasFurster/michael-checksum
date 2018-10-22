@@ -15,18 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsViewModel {
-    private List<String> paths = new ArrayList<>();
-    private ListProperty<String> listProperty = new SimpleListProperty<>();
+    private ObservableList<String> paths = FXCollections.observableArrayList();
+    private ListProperty<String> listProperty = new SimpleListProperty<>(paths);
 
     private EventHandler<MouseEvent> onAddClick;
     private String pathToAdd;
 
     public String getPathToAdd() {
         return pathToAdd;
-    }
-
-    public SettingsViewModel() {
-        this.listProperty.set(FXCollections.observableArrayList(paths));
     }
 
     public ListProperty<String> getListProperty(){
@@ -38,7 +34,7 @@ public class SettingsViewModel {
     }
 
     public void setPaths(ArrayList<String> paths){
-        this.paths = paths;
+        this.paths.setAll(paths);
     }
 
     public void setOnSettingsAddEventHandler(EventHandler<MouseEvent> eventHandler) {
