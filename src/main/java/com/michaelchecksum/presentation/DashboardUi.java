@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 
-public class Dashboard extends Stage {
+public class DashboardUi extends Stage {
     private DashboardViewModel viewModel;
     private VBox root;
 
