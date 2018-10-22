@@ -30,7 +30,7 @@ public class SettingsUi extends Stage {
         this.root = new VBox(30);
         this.viewModel = settingsViewModel;
 
-        this.setTitle("SettingsUi");
+        this.setTitle("Settings");
         this.setList();
         this.setAddRemove();
 

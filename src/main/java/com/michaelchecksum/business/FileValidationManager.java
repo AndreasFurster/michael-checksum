@@ -130,7 +130,6 @@ public class FileValidationManager implements FileEventListener {
         while ((bytesCount = fis.read(byteArray)) != -1) {
             digest.update(byteArray, 0, bytesCount);
         }
-        ;
 
         //close the stream; We don't need it now.
         fis.close();
@@ -147,6 +146,6 @@ public class FileValidationManager implements FileEventListener {
 
         boolean result = sb.toString().equals(hash);
 
-        return new FileValidationResult(file, hash, hashType, result);
+        return new FileValidationResult(file.getName(), hash, hashType, result);
     }
 }
