@@ -24,11 +24,12 @@ public class SettingStorage {
         return true;
     }
 
-    public ArrayList<Path> GetFilewatchPaths() throws IOException{
-        //return all
-        String content = new String(Files.readAllBytes(Paths.get("settings.json")));
+    public ArrayList<Path> getFilewatchPaths() throws IOException{
 
-        System.out.println(content);
-        return new ArrayList<Path>();
+        //String content = new String(Files.readAllBytes(Paths.get("settings.json")));
+
+        ArrayList<Path> paths = new ArrayList<>();
+        paths.add(Paths.get(System.getProperty("user.home") + "\\Downloads\\"));
+        return paths;
     }
 }
