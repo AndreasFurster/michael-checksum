@@ -10,15 +10,21 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 
 public class SettingsUi extends Stage {
     private VBox root;
     private SettingsViewModel viewModel;
+
+    private Button buttonAdd;
+    private Button buttonRemove;
+    private Text file;
 
     public void initializeComponent(SettingsViewModel settingsViewModel) {
         this.root = new VBox(30);
@@ -34,7 +40,28 @@ public class SettingsUi extends Stage {
     }
 
     public void setList(){
+        //message for restart
+        Text message = new Text();
+        message.setFill(Paint.valueOf("red"));
+        message.setText("Don't forget to restart after configuring all the folders.");
+
+        HBox messageBox = new HBox();
+        messageBox.setAlignment(Pos.TOP_CENTER);
+        messageBox.getChildren().add(message);
+
         ListView<String> listView = new ListView<>();
+        listView.setOnMouseClicked(Event -> {
+            //System.out.println(Event);
+            System.out.println();
+            if(this.buttonRemove != null && this.file != null){
+                String text  = listView.getSelectionModel().getSelectedItem();
+                this.buttonRemove.setId(text);
+                this.file.setText(text);
+            }
+
+
+        });
+
         listView.itemsProperty().bind(this.viewModel.getListProperty());
         listView.setMaxHeight(150);
         listView.setMinWidth(300);
@@ -43,7 +70,9 @@ public class SettingsUi extends Stage {
         HBox listOfPaths = new HBox();
         listOfPaths.getChildren().add(listView);
 
+        this.root.getChildren().add(messageBox);
         this.root.getChildren().add(listOfPaths);
+
     }
 
     public void setAddRemove(){
@@ -51,13 +80,13 @@ public class SettingsUi extends Stage {
         Text file = new Text();
         file.prefWidth(200);
 
+        this.file = file;
+
         //configure filebox
         HBox fileBox = new HBox(5);
         fileBox.getChildren().add(file);
         fileBox.setAlignment(Pos.TOP_CENTER);
-        //button add
-        Button buttonAdd =  new Button("Add");
-        buttonAdd.setPrefWidth(50);
+
 
         //buttons display
         Button fileExplorer = new Button("Browser");
@@ -65,10 +94,10 @@ public class SettingsUi extends Stage {
             DirectoryChooser chooser = new DirectoryChooser();
             File showDialog = chooser.showDialog(this);
             String path = showDialog.toString();
-            file.setText(path);
-
-
-            buttonAdd.setId(file.getText());
+            this.file.setText(path);
+            if(this.buttonAdd != null) {
+                this.buttonAdd.setId(this.file.getText());
+            }
         });
 
         //configure explorer button box
@@ -76,12 +105,20 @@ public class SettingsUi extends Stage {
         fileExplorerBox.setAlignment(Pos.TOP_CENTER);
         fileExplorerBox.getChildren().add(fileExplorer);
 
-        fileExplorer.setPrefWidth(100);
+        //button add
+        Button buttonAdd =  new Button("Add");
+        buttonAdd.setPrefWidth(50);
+        this.buttonAdd = buttonAdd;
 
-        buttonAdd.setOnMouseClicked(this.viewModel.onPathAdd());
-
+        //button remove
         Button buttonRemove = new Button("Del");
         buttonRemove.setPrefWidth(50);
+        this.buttonRemove = buttonRemove;
+
+        fileExplorer.setPrefWidth(100);
+
+        this.buttonAdd.setOnMouseClicked(this.viewModel.onPathAdd());
+        this.buttonRemove.setOnMouseClicked(this.viewModel.onPathRemove());
 
         //add everything to the box
         HBox hbox = new HBox();

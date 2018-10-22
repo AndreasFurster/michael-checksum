@@ -19,6 +19,8 @@ public class SettingsViewModel {
     private ListProperty<String> listProperty = new SimpleListProperty<>(paths);
 
     private EventHandler<MouseEvent> onAddClick;
+    private EventHandler<MouseEvent> onRemoveClick;
+
     private String pathToAdd;
 
     public String getPathToAdd() {
@@ -38,16 +40,25 @@ public class SettingsViewModel {
     }
 
     public void setOnSettingsAddEventHandler(EventHandler<MouseEvent> eventHandler) {
-            this.onAddClick = eventHandler;
+        this.onAddClick = eventHandler;
+    }
+
+    public void setOnSettingsDeleteEventHandler(EventHandler<MouseEvent> eventHandler){
+        this.onRemoveClick = eventHandler;
     }
 
     public EventHandler<MouseEvent> onPathAdd(){
         return this.onAddClick;
     }
 
+    public EventHandler<MouseEvent> onPathRemove(){
+        return this.onRemoveClick;
+    }
+
     public void onBrowserClick(){
         DirectoryChooser chooser = new DirectoryChooser();
         File file = new File(System.getProperty("user.home"));
     }
+
 
 }
