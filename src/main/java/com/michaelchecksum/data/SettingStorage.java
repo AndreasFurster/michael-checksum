@@ -98,7 +98,7 @@ public class SettingStorage {
 
     private boolean findFolders(String givenFolder){
         for(String folder : this.settings.folders){
-            if(folder == givenFolder){
+            if(folder.equals(givenFolder)){
                 return true;
             }
         }
