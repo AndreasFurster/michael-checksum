@@ -1,7 +1,7 @@
 # Table to store validation results
 create table validation_result (
   id        int(10) not null auto_increment, 
-  user_id    int(10) not null, 
+  user_id   int(10) not null, 
   hash_type int(10) not null, 
   hash      varchar(128) not null, 
   file_name varchar(255) not null, 
@@ -28,8 +28,7 @@ create table country (
 create table user_country (
   user_id    int(10) not null, 
   country_id int(10) not null, 
-  primary key (user_id, 
-  country_id)
+  primary key (user_id, country_id)
 );
 
 
