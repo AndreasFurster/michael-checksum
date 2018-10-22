@@ -9,9 +9,10 @@ public class FileValidationResult {
     private String hash;
     private boolean success;
 
-    public FileValidationResult(File file, String hash, boolean success) {
+    public FileValidationResult(File file, String hash, HashType hashType, boolean success) {
         this.file = file;
         this.hash = hash;
+        this.hashType = hashType;
         this.success = success;
     }
 

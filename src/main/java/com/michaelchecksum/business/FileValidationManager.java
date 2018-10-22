@@ -2,6 +2,7 @@ package com.michaelchecksum.business;
 
 import com.michaelchecksum.data.FileValidationStorage;
 import com.michaelchecksum.domain.FileValidationResult;
+import com.michaelchecksum.domain.HashType;
 import com.michaelchecksum.domain.viewmodels.FileValidationResultViewModel;
 import com.michaelchecksum.domain.viewmodels.FileValidationViewModel;
 import com.michaelchecksum.presentation.FileValidationUi;
@@ -85,38 +86,38 @@ public class FileValidationManager implements FileEventListener {
         if (hash == null)
             throw new IllegalArgumentException("There is no hash supplied");
 
-        boolean checksumValidationResult = false;
+        HashType hashType;
 
         switch (hash.length()) {
             // MD5 128 Bit
             case 128 / 4:
-                checksumValidationResult = validateChecksum("MD5", file, hash);
+                hashType = HashType.MD5;
                 break;
 
             // SHA1
             case 160 / 4:
-                checksumValidationResult = validateChecksum("SHA-1", file, hash);
+                hashType = HashType.SHA1;
                 break;
 
             // SHA256
             case 256 / 4:
-                checksumValidationResult = validateChecksum("SHA-256", file, hash);
+                hashType = HashType.SHA256;
                 break;
 
             // SHA512
             case 512 / 4:
-                checksumValidationResult = validateChecksum("SHA-512", file, hash);
+                hashType = HashType.SHA512;
                 break;
 
             default:
                 throw new IllegalArgumentException("The supplied hash is unsupported");
         }
 
-        return new FileValidationResult(file, hash, checksumValidationResult);
+        return validateChecksum(file, hash, hashType);
     }
 
-    private boolean validateChecksum(String hashType, File file, String hash) throws IOException, NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance(hashType);
+    private FileValidationResult validateChecksum(File file, String hash, HashType hashType) throws IOException, NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance(hashType.toString());
 
         //Get file input stream for reading the file content
         FileInputStream fis = new FileInputStream(file);
@@ -140,10 +141,12 @@ public class FileValidationManager implements FileEventListener {
         //This bytes[] has bytes in decimal format;
         //Convert it to hexadecimal format
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        for (byte aByte : bytes) {
+            sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
         }
 
-        return sb.toString().equals(hash);
+        boolean result = sb.toString().equals(hash);
+
+        return new FileValidationResult(file, hash, hashType, result);
     }
 }
