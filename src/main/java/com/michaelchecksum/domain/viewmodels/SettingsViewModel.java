@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class SettingsViewModel {
-    private ObservableList<Path> paths;
+    private ObservableList<String> paths;
     private EventHandler<MouseEvent> onAddClick;
     private String pathToAdd;
 
@@ -21,18 +21,10 @@ public class SettingsViewModel {
     }
 
     public ObservableList<String> getPaths(){
-        ArrayList<String> pathsByString = new ArrayList<>();
-
-        for(Path path : this.paths){
-            pathsByString.add(path.toString());
-
-            System.out.println(path);
-        }
-
-        return FXCollections.observableArrayList(pathsByString);
+        return FXCollections.observableArrayList(this.paths);
     }
 
-    public void setPaths(ArrayList<Path> paths){
+    public void setPaths(ArrayList<String> paths){
         this.paths = FXCollections.observableArrayList(paths);
     }
 

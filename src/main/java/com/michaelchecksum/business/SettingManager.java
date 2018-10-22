@@ -13,8 +13,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SettingManager {
-
-    private ArrayList<Path> settings = new ArrayList<>();
     private SettingStorage  settingStorage = new SettingStorage(Paths.get(System.getProperty("user.dir") + "\\settings.json"));
     private SettingsUi gui;
     private SettingsViewModel viewModel;
@@ -27,7 +25,7 @@ public class SettingManager {
     }
 
     public void addPathToSettings(String path){
-        System.out.println(path);
+        this.settingStorage.insertFilewatchPath(path);
     }
 
     public void openSettings() {
@@ -36,7 +34,7 @@ public class SettingManager {
             @Override
             public void handle(MouseEvent t ) {
                 // TODO: HANDLE IT PROPERLY;
-                Button btn = (Button) t.getSource(); 
+                Button btn = (Button) t.getSource();
                 String path = btn.getId();
                 addPathToSettings(path);
             }
@@ -48,13 +46,11 @@ public class SettingManager {
 
     public ArrayList<String> getSettings() {
         try {
-            ArrayList<String> listOfPaths = settingStorage.getFilewatchPaths();
-            return listOfPaths;
+            return settingStorage.getFilewatchPaths();
         }
         catch(IOException exception){
             System.out.println(exception.toString());
         }
         return new ArrayList<>();
-
     }
 }
