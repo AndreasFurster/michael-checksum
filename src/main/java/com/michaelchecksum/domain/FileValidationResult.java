@@ -4,7 +4,6 @@ import java.io.File;
 
 public class FileValidationResult {
     private File file;
-    private User user;
     private HashType hashType;
     private String hash;
     private boolean success;

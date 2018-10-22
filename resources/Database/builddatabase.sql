@@ -12,14 +12,13 @@ create table validation_result (
 # Table to store users
 create table `user` (
   id       int(10) not null auto_increment, 
-  username varchar(255), 
+  username varchar(255) unique, 
   primary key (id)
 );
 
 # Table to store countries
 create table country (
   id           int(10) not null auto_increment, 
-  country_code varchar(3) not null, 
   country_name varchar(255) not null, 
   primary key (id)
 );
