@@ -19,8 +19,8 @@
         <module name="michaelChecksum" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="michaelChecksum" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="michaelChecksum" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

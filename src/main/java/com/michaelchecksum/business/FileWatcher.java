@@ -32,8 +32,8 @@ public class FileWatcher extends Thread {
     public void run() {
         //start file watching
         while (true) {
-            if (watchKey != null) {
-                watchKey.pollEvents().stream().forEach(event -> {
+            if (this.watchKey != null) {
+                this.watchKey.pollEvents().stream().forEach(event -> {
                     //there has to be a pop up here
                     String filePath = this.path + "\\" + event.context().toString();
                     File file = new File(filePath);
@@ -49,7 +49,7 @@ public class FileWatcher extends Thread {
 
                 });
             }
-            watchKey.reset();
+            this.watchKey.reset();
         }
     }
 }
