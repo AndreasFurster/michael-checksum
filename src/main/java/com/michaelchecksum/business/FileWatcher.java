@@ -37,19 +37,29 @@ public class FileWatcher extends Thread {
                     //there has to be a pop up here
                     String filePath = this.path + "\\" + event.context().toString();
                     File file = new File(filePath);
-                    System.out.println(fileEventListeners);
-                    for (FileEventListener fileEventListener : fileEventListeners) {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                fileEventListener.handleNewFileFound(file);
-                            }
-                        });
+                    String extension = getFileExtension(file);
+                    System.out.println(extension);
+                    if(!extension.equals("crdownload") && !extension.equals("tmp")) {
+                        System.out.println(fileEventListeners);
+                        for (FileEventListener fileEventListener : fileEventListeners) {
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fileEventListener.handleNewFileFound(file);
+                                }
+                            });
+                        }
                     }
-
                 });
             }
             this.watchKey.reset();
         }
+    }
+
+    private static String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+        else return "";
     }
 }
