@@ -17,7 +17,7 @@ import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class FileValidation extends Stage {
+public class FileValidationUi extends Stage {
     public void initializeComponent(FileValidationViewModel viewModel) {
         this.setTitle("New file found");
 

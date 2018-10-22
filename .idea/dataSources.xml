@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Azure - MichaelChecksum" uuid="6332ed58-b416-4dda-aeb3-542ed3ad06e5">
-      <driver-ref>azure.ms</driver-ref>
+    <data-source source="LOCAL" name="MariaDB - MichaelChecksum" uuid="5278ebcb-1aaf-4a3c-bbb0-088ed5462a24">
+      <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://server.database.windows.net:1433</jdbc-url>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://185.182.56.176:3306/andredg46_proftaak21</jdbc-url>
       <driver-properties>
-        <property name="loginTimeout" value="30" />
-        <property name="trustServerCertificate" value="false" />
-        <property name="encrypt" value="true" />
-        <property name="hostNameInCertificate" value="*.database.windows.net" />
-        <property name="applicationName" value="DataGrip" />
+        <property name="autoReconnect" value="true" />
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+        <property name="characterEncoding" value="utf8" />
+        <property name="characterSetResults" value="utf8" />
+        <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
   </component>
