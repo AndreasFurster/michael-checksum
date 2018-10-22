@@ -1,5 +1,7 @@
 package com.michaelchecksum.domain.viewmodels;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -10,9 +12,12 @@ import javafx.stage.Window;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsViewModel {
-    private ObservableList<String> paths;
+    private List<String> paths = new ArrayList<>();
+    private ListProperty<String> listProperty = new SimpleListProperty<>();
+
     private EventHandler<MouseEvent> onAddClick;
     private String pathToAdd;
 
@@ -20,12 +25,20 @@ public class SettingsViewModel {
         return pathToAdd;
     }
 
-    public ObservableList<String> getPaths(){
-        return FXCollections.observableArrayList(this.paths);
+    public SettingsViewModel() {
+        this.listProperty.set(FXCollections.observableArrayList(paths));
+    }
+
+    public ListProperty<String> getListProperty(){
+        return this.listProperty;
+    }
+
+    public List<String> getPaths(){
+        return this.paths;
     }
 
     public void setPaths(ArrayList<String> paths){
-        this.paths = FXCollections.observableArrayList(paths);
+        this.paths = paths;
     }
 
     public void setOnSettingsAddEventHandler(EventHandler<MouseEvent> eventHandler) {

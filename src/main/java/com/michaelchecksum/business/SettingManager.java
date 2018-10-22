@@ -46,6 +46,7 @@ public class SettingManager {
 
     public ArrayList<String> getSettings() {
         try {
+            this.viewModel.setPaths(settingStorage.getFilewatchPaths());
             return settingStorage.getFilewatchPaths();
         }
         catch(IOException exception){
