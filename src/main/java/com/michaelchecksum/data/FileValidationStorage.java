@@ -1,29 +1,64 @@
 package com.michaelchecksum.data;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.michaelchecksum.domain.FileValidationResult;
 
+import java.io.*;
+import java.net.URL;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 
 public class FileValidationStorage {
-    private Database database;
+    private SettingStorage settingStorage;
 
     public FileValidationStorage(){
-        this.database = new Database();
+        this.settingStorage = new SettingStorage();
     }
 
     public void add(FileValidationResult result) {
         try {
-            PreparedStatement statement = database.getConnection().prepareStatement("INSERT INTO validation_result (user_id, hash_type, hash, file_name, validated) VALUES (?, ?, ?, ?, ?)");
-            statement.setInt(1, 1);
-            statement.setInt(2, result.getHashType().getValue());
-            statement.setString(3, result.getHash());
-            statement.setString(4, result.getFile().getName());
-            statement.setBoolean(5, result.getSuccess());
+            String username = this.settingStorage.getUsername();
+            String country = this.getUserLocale();
 
-        } catch (SQLException e) {
+            try(Database database = new Database()) {
+                database.insertUser(username);
+                database.insertCountry(country);
+
+                int userId = database.getUserId(username);
+                int countryId = database.getCountryId(country);
+
+                database.addUserToCountry(userId, countryId);
+
+                database.insertFileValidationResult(userId, result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getUserLocale() throws IOException {
+        InputStream resultStream = new URL("http://api.ipstack.com/check?access_key=457379d7bf9e2bb49147f06a0043aea2").openStream();
+        String json = this.readInputStream(resultStream);
+        return new Gson().fromJson(json, JsonObject.class).get("country_name").getAsString();
+    }
+
+    private String readInputStream(InputStream resultStream) throws IOException {
+        BufferedInputStream bis = new BufferedInputStream(resultStream);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int result = bis.read();
+        while(result != -1) {
+            buf.write((byte) result);
+            result = bis.read();
+        }
+
+        return buf.toString("UTF-8");
     }
 }
