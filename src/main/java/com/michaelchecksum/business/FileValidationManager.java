@@ -5,6 +5,7 @@ import com.michaelchecksum.domain.FileValidationResult;
 import com.michaelchecksum.domain.HashType;
 import com.michaelchecksum.domain.viewmodels.FileValidationResultViewModel;
 import com.michaelchecksum.domain.viewmodels.FileValidationViewModel;
+import com.michaelchecksum.domain.viewmodels.ValidationResultViewModel;
 import com.michaelchecksum.presentation.FileValidationUi;
 import com.michaelchecksum.presentation.FileValidationResultUi;
 import javafx.event.EventHandler;
@@ -19,27 +20,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileValidationManager implements FileEventListener {
     private FileValidationUi fileValidationUi;
-    private FileValidationViewModel viewModel;
-    private FileValidationResultUi fileValidationResultUi;
-    private FileValidationResultViewModel fileValidationResultViewModel;
     private FileValidationStorage fileValidationStorage;
 
     FileValidationManager() {
-        this.viewModel = new FileValidationViewModel();
-        this.viewModel.setOnConfirmClickEventHandler(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                validateChecksum();
-            }
-        });
-
-        this.viewModel.setOnCancelClickEventHandler(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                closeGui();
-            }
-        });
-
         this.fileValidationStorage = new FileValidationStorage();
     }
 
@@ -48,38 +31,59 @@ public class FileValidationManager implements FileEventListener {
         validateFile(file);
     }
 
-    public void validateFile(File file) {
+    private void validateFile(File file) {
         this.fileValidationUi = new FileValidationUi();
-        this.fileValidationUi.initializeComponent(this.viewModel);
+        FileValidationViewModel viewModel = CreateViewModel();
+        this.fileValidationUi.initializeComponent(viewModel);
 
-        this.viewModel.setFile(file);
+        viewModel.setFile(file);
 
         this.fileValidationUi.show();
         this.fileValidationUi.setAlwaysOnTop(true);
     }
 
-    private void closeGui() {
-        this.fileValidationUi.close();
+    private FileValidationViewModel CreateViewModel(){
+        FileValidationViewModel viewModel = new FileValidationViewModel();
+
+        viewModel.setOnConfirmClickEventHandler(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                validateChecksum(viewModel);
+            }
+        });
+
+        viewModel.setOnCancelClickEventHandler(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                closeGui();
+            }
+        });
+
+        return viewModel;
     }
 
-    private void validateChecksum() {
-        this.fileValidationResultUi = new FileValidationResultUi();
-        this.fileValidationResultViewModel = new FileValidationResultViewModel();
+    private void validateChecksum(FileValidationViewModel viewModel) {
+        FileValidationResultUi fileValidationResultUi = new FileValidationResultUi();
+        FileValidationResultViewModel fileValidationResultViewModel = new FileValidationResultViewModel();
         fileValidationResultUi.initializeComponent(fileValidationResultViewModel);
 
         try {
             FileValidationResult result = checkHash(viewModel.getFile(), viewModel.getHash());
 
-            this.fileValidationResultViewModel.setSuccess(result.getSuccess());
+            fileValidationResultViewModel.setSuccess(result.getSuccess());
             this.fileValidationStorage.add(result);
         } catch (NoSuchAlgorithmException | IllegalArgumentException | IOException e) {
             fileValidationResultViewModel.setValidationErrorPresent(true);
             fileValidationResultViewModel.setValidationErrorMessage(e.getMessage());
         } finally {
             this.fileValidationUi.close();
-            this.fileValidationResultUi.show();
+            fileValidationResultUi.show();
             this.fileValidationUi.setAlwaysOnTop(true);
         }
+    }
+
+    private void closeGui() {
+        this.fileValidationUi.close();
     }
 
     private FileValidationResult checkHash(File file, String hash) throws NoSuchAlgorithmException, IOException, IllegalArgumentException {

@@ -33,7 +33,8 @@ public class FileValidationUi extends Stage {
         filenameBox.getChildren().add(filename);
 
         javafx.scene.control.TextField hashTextField = new javafx.scene.control.TextField();
-        hashTextField.textProperty().bindBidirectional(viewModel.hashProperty());
+        viewModel.hashProperty().bind(hashTextField.textProperty());
+        
 
         HBox actions = new HBox(10);
         javafx.scene.control.Button confirm = new javafx.scene.control.Button("Confirm");
