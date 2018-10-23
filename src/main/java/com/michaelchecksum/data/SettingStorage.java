@@ -96,6 +96,25 @@ public class SettingStorage {
         }
     }
 
+    private boolean writeNewFile(Settings settings){
+        File file = new File(location.toString());
+        try {
+            String json = gson.toJson(settings);
+
+            file.createNewFile();
+            List<String> lines = new ArrayList<>();
+            lines.add(json);
+            Files.write(this.location, lines);
+            return true;
+        }
+        catch(IOException ex){
+            // TODO: exception handling
+            //return false;
+            System.out.println("ALLES KAPOT");
+            return false;
+        }
+    }
+
     private boolean findFolders(String givenFolder){
         for(String folder : this.settings.folders){
             if(folder.equals(givenFolder)){
@@ -103,5 +122,18 @@ public class SettingStorage {
             }
         }
         return false;
+    }
+
+    public void setUsername(String username) {
+        try{
+            String content = new String(Files.readAllBytes(this.location));
+
+            Settings settings = gson.fromJson(content, Settings.class);
+            settings.username = username;
+            this.writeNewFile(settings);
+        }
+        catch(IOException ex){
+            // TODO: catch exception
+        }
     }
 }

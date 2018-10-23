@@ -1,7 +1,10 @@
 package com.michaelchecksum.domain.viewmodels;
 
+import com.michaelchecksum.data.SettingStorage;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -17,16 +20,21 @@ import java.util.List;
 public class SettingsViewModel {
     private ObservableList<String> paths = FXCollections.observableArrayList();
     private ListProperty<String> listProperty = new SimpleListProperty<>(paths);
+    private StringProperty username = new SimpleStringProperty();
 
     private EventHandler<MouseEvent> onAddClick;
     private EventHandler<MouseEvent> onRemoveClick;
+    private EventHandler<MouseEvent> onSetUsername;
 
-    private String pathToAdd;
+    private SettingStorage settingStorage = new SettingStorage();
 
-    public String getPathToAdd() {
-        return pathToAdd;
+    public StringProperty getUsername(){
+        return this.username;
     }
 
+    public void setUsername(String username){
+        this.username.set(username);
+    }
     public ListProperty<String> getListProperty(){
         return this.listProperty;
     }
@@ -47,6 +55,10 @@ public class SettingsViewModel {
         this.onRemoveClick = eventHandler;
     }
 
+    public void setOnSetUsername(EventHandler<MouseEvent> eventHandler){
+        this.onSetUsername = eventHandler;
+    }
+
     public EventHandler<MouseEvent> onPathAdd(){
         return this.onAddClick;
     }
@@ -55,10 +67,7 @@ public class SettingsViewModel {
         return this.onRemoveClick;
     }
 
-    public void onBrowserClick(){
-        DirectoryChooser chooser = new DirectoryChooser();
-        File file = new File(System.getProperty("user.home"));
+    public EventHandler<MouseEvent> onSetUsername(){
+        return this.onSetUsername;
     }
-
-
 }
