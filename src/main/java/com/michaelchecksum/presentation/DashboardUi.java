@@ -1,8 +1,9 @@
 package com.michaelchecksum.presentation;
 
 
+import com.michaelchecksum.domain.utils.FileValidationSucceedBooleanStringConverter;
 import com.michaelchecksum.domain.viewmodels.DashboardViewModel;
-import com.michaelchecksum.domain.viewmodels.ValidationResultViewModel;
+import com.michaelchecksum.domain.viewmodels.FileValidationResultViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -53,23 +55,25 @@ public class DashboardUi extends Stage {
     }
 
     private void setStatistics() {
-        TableView<ValidationResultViewModel> tableView = new TableView<>();
+        TableView<FileValidationResultViewModel> tableView = new TableView<>();
 
         TableColumn usernameCol = new TableColumn("Username");
         usernameCol.setMinWidth(100);
-        usernameCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("username"));
+        usernameCol.setCellValueFactory(new PropertyValueFactory<FileValidationResultViewModel, String>("username"));
 
         TableColumn hashTypeCol = new TableColumn("Hash type");
         hashTypeCol.setMinWidth(100);
-        hashTypeCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("hashType"));
+        hashTypeCol.setCellValueFactory(new PropertyValueFactory<FileValidationResultViewModel, String>("hashType"));
 
         TableColumn fileNameCol = new TableColumn("File name");
         fileNameCol.setMinWidth(300);
-        fileNameCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("fileName"));
+
+        fileNameCol.setCellValueFactory(new PropertyValueFactory<FileValidationResultViewModel, String>("fileName"));
 
         TableColumn succeedCol = new TableColumn("Succeed");
         succeedCol.setMinWidth(100);
-        succeedCol.setCellValueFactory(new PropertyValueFactory<ValidationResultViewModel, String>("succeed"));
+        succeedCol.setCellFactory(TextFieldTableCell.forTableColumn(new FileValidationSucceedBooleanStringConverter()));
+        succeedCol.setCellValueFactory(new PropertyValueFactory<FileValidationResultViewModel, Boolean>("success"));
 
         tableView.setItems(viewModel.validationResults());
         tableView.getColumns().addAll(usernameCol, hashTypeCol, fileNameCol, succeedCol);

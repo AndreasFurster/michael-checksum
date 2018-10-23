@@ -1,39 +1,57 @@
 package com.michaelchecksum.domain.viewmodels;
 
+import com.michaelchecksum.domain.HashType;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.util.converter.BooleanStringConverter;
 
 public class FileValidationResultViewModel {
-    private boolean validationErrorPresent = false;
-    private String validationErrorMessage;
-    private boolean success = false;
-    private StringProperty resultMessage = new SimpleStringProperty();
+    private SimpleStringProperty validationErrorMessage = new SimpleStringProperty();
 
-    public void setValidationErrorPresent(boolean validationErrorPresent) {
-        this.validationErrorPresent = validationErrorPresent;
-        setResultMessage();
+    private SimpleStringProperty username = new SimpleStringProperty();
+    private SimpleStringProperty hashType = new SimpleStringProperty();
+    private SimpleStringProperty fileName = new SimpleStringProperty();
+
+    private SimpleBooleanProperty success = new SimpleBooleanProperty();
+    public FileValidationResultViewModel(){}
+
+    public FileValidationResultViewModel(String username, HashType hashType, String fileName, boolean success) {
+        this.username.set(username);
+        this.hashType.set(hashType.toString());
+        this.fileName.set(fileName);
+        this.success.set(success);
     }
 
+    public SimpleStringProperty usernameProperty() {
+        return username;
+    }
+
+    public SimpleStringProperty hashTypeProperty() {
+        return hashType;
+    }
+
+    public SimpleStringProperty fileNameProperty() {
+        return fileName;
+    }
+
+    public SimpleBooleanProperty successProperty(){ return success; }
+
     public void setValidationErrorMessage(String validationErrorMessage) {
-        this.validationErrorMessage = validationErrorMessage;
-        setResultMessage();
+        this.validationErrorMessage.set(validationErrorMessage);
     }
 
     public void setSuccess(boolean success) {
-        this.success = success;
-        setResultMessage();
+        this.success.set(success);
     }
 
-    public StringProperty resultMessage() {
-        return this.resultMessage;
+    public boolean getSucces(){
+        return this.success.get();
     }
 
-    private void setResultMessage() {
-        if (validationErrorPresent) {
-            resultMessage.set("An error has occured: " + validationErrorMessage);
-        } else {
-            resultMessage.set("Result: " + (success ? "SUCCESS" : "FAILED"));
-        }
+    public SimpleStringProperty validationErrorMessage() {
+        return validationErrorMessage;
     }
-
 }
+

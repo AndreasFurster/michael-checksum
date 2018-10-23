@@ -17,11 +17,11 @@ public class DashboardViewModel {
     private DoubleProperty totalAmount = new SimpleDoubleProperty();
 
 
-    private ObservableList<ValidationResultViewModel> validationResults = FXCollections.observableArrayList();
+    private ObservableList<FileValidationResultViewModel> validationResults = FXCollections.observableArrayList();
 
     private EventHandler<MouseEvent> onSettingsClick;
 
-    public void addValidationResult(ValidationResultViewModel validationResult) {
+    public void addValidationResult(FileValidationResultViewModel validationResult) {
         this.validationResults.add(validationResult);
         calculateStatistics();
     }
@@ -31,8 +31,8 @@ public class DashboardViewModel {
         int failed = 0;
         int total = 0;
 
-        for (ValidationResultViewModel validationResult : this.validationResults) {
-            if (validationResult.getSucceed()){
+        for (FileValidationResultViewModel validationResult : this.validationResults) {
+            if (validationResult.getSucces()){
                 succeed += 1;
             }
             else {
@@ -47,7 +47,7 @@ public class DashboardViewModel {
         this.totalAmount.set(total);
     }
 
-    public ObservableList<ValidationResultViewModel> validationResults(){
+    public ObservableList<FileValidationResultViewModel> validationResults(){
         return validationResults;
     }
 

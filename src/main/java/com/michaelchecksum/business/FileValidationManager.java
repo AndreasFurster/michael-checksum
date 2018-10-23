@@ -3,9 +3,9 @@ package com.michaelchecksum.business;
 import com.michaelchecksum.data.FileValidationStorage;
 import com.michaelchecksum.domain.FileValidationResult;
 import com.michaelchecksum.domain.HashType;
+import com.michaelchecksum.domain.utils.FileEventListener;
 import com.michaelchecksum.domain.viewmodels.FileValidationResultViewModel;
 import com.michaelchecksum.domain.viewmodels.FileValidationViewModel;
-import com.michaelchecksum.domain.viewmodels.ValidationResultViewModel;
 import com.michaelchecksum.presentation.FileValidationUi;
 import com.michaelchecksum.presentation.FileValidationResultUi;
 import javafx.event.EventHandler;
@@ -73,7 +73,6 @@ public class FileValidationManager implements FileEventListener {
             fileValidationResultViewModel.setSuccess(result.getSuccess());
             this.fileValidationStorage.add(result);
         } catch (NoSuchAlgorithmException | IllegalArgumentException | IOException e) {
-            fileValidationResultViewModel.setValidationErrorPresent(true);
             fileValidationResultViewModel.setValidationErrorMessage(e.getMessage());
         } finally {
             this.fileValidationUi.close();

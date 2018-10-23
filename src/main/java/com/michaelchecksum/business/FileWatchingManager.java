@@ -1,6 +1,7 @@
 package com.michaelchecksum.business;
 
 import com.michaelchecksum.data.SettingStorage;
+import com.michaelchecksum.domain.utils.FileEventListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +38,4 @@ public class FileWatchingManager {
     public void startSingleWatcher(Path path) {
         new FileWatcher(path, this.fileEventListeners).start();
     }
-}
-
-interface FileEventListener {
-    void handleNewFileFound(File file);
 }
