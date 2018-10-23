@@ -146,13 +146,13 @@ public class SettingsUi extends Stage {
     public void setUsernameBox(){
 
         this.username = new Text();
-        viewModel.getUsername().bindBidirectional(this.username.textProperty());
-
         this.username.setText("Username:");
         this.username.prefWidth(50);
 
         this.usernameValue = new TextField();
         this.usernameValue.setPrefWidth(150);
+        this.usernameValue.textProperty().bindBidirectional(viewModel.getUsername());
+        
         this.usernameSet = new Button("Set");
         this.usernameSet.setOnMouseClicked(this.viewModel.onSetUsername());
 

@@ -75,6 +75,12 @@ public class SettingManager {
 
         this.gui.initializeComponent(this.viewModel);
         this.viewModel.setPaths(this.getSettings());
+        try {
+            this.viewModel.setUsername(this.settingStorage.getUsername());
+        }
+        catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
         this.gui.show();
     }
 
