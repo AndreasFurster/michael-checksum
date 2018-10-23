@@ -22,41 +22,71 @@ public class SettingsUi extends Stage {
     private VBox root;
     private SettingsViewModel viewModel;
 
-    private Button buttonAdd;
-    private Button buttonRemove;
-    private Text file;
+    //adding
+    private HBox addBox;
+    private Button directoryChoose;
+    private Button add;
+    private Text folderToAdd;
+
+    //removing
+    private HBox removeBox;
+    private Button remove;
+    private Text folderToRemove;
+
+    //message
+    private HBox messageBox;
+    private Text message;
+
+    //list
+    private HBox listBox;
+
+    //username
+    private HBox usernameBox;
+    private Text username;
+    private TextField usernameValue;
+    private Button usernameSet;
+
 
     public void initializeComponent(SettingsViewModel settingsViewModel) {
-        this.root = new VBox(30);
+
         this.viewModel = settingsViewModel;
 
         this.setTitle("Settings");
         this.setList();
-        this.setAddRemove();
+        this.setAddBox();
+        this.setRemoveBox();
+        this.setUsernameBox();
 
+        this.root = new VBox(30);
         this.root.setAlignment(Pos.TOP_CENTER);
+
+        this.root.getChildren().add(this.messageBox);
+        this.root.getChildren().add(this.listBox);
+        this.root.getChildren().add(this.removeBox);
+        this.root.getChildren().add(this.addBox);
+        this.root.getChildren().add(this.usernameBox);
 
         this.setScene(new Scene(this.root, 300, 250));
     }
 
     public void setList(){
         //message for restart
-        Text message = new Text();
-        message.setFill(Paint.valueOf("red"));
-        message.setText("Don't forget to restart after configuring all the folders.");
+        this.message = new Text();
+        this.message.setFill(Paint.valueOf("red"));
+        this.message.setText("Don't forget to restart after configuring all the folders.");
 
-        HBox messageBox = new HBox();
-        messageBox.setAlignment(Pos.TOP_CENTER);
-        messageBox.getChildren().add(message);
+        this.messageBox = new HBox();
+        this.messageBox.setAlignment(Pos.TOP_CENTER);
+        this.messageBox.getChildren().add(message);
 
         ListView<String> listView = new ListView<>();
         listView.setOnMouseClicked(Event -> {
             //System.out.println(Event);
             System.out.println();
-            if(this.buttonRemove != null && this.file != null){
+            if(this.remove != null && this.folderToRemove != null){
                 String text  = listView.getSelectionModel().getSelectedItem();
-                this.buttonRemove.setId(text);
-                this.file.setText(text);
+                this.remove.setId(text);
+                this.folderToRemove.setText(text);
             }
 
 
@@ -67,69 +97,69 @@ public class SettingsUi extends Stage {
         listView.setMinWidth(300);
         listView.setMaxWidth(300);
 
-        HBox listOfPaths = new HBox();
-        listOfPaths.getChildren().add(listView);
-
-        this.root.getChildren().add(messageBox);
-        this.root.getChildren().add(listOfPaths);
-
+        this.listBox = new HBox(10);
+        this.listBox.getChildren().add(listView);
     }
 
-    public void setAddRemove(){
-        //file name display
-        Text file = new Text();
-        file.prefWidth(200);
+    public void setAddBox(){
+        //file name selected new
+        this.folderToAdd = new Text();
+        folderToAdd.prefWidth(150);
 
-        this.file = file;
+        this.add = new Button("Add");
+        this.add.prefWidth(75);
+        this.add.setOnMouseClicked(this.viewModel.onPathAdd());
 
-        //configure filebox
-        HBox fileBox = new HBox(5);
-        fileBox.getChildren().add(file);
-        fileBox.setAlignment(Pos.TOP_CENTER);
-
-
-        //buttons display
-        Button fileExplorer = new Button("Browser");
-        fileExplorer.setOnMouseClicked(event -> {
+        this.directoryChoose = new Button("Browser");
+        this.directoryChoose.prefWidth(75);
+        this.directoryChoose.setOnMouseClicked(event -> {
             DirectoryChooser chooser = new DirectoryChooser();
             File showDialog = chooser.showDialog(this);
             String path = showDialog.toString();
-            this.file.setText(path);
-            if(this.buttonAdd != null) {
-                this.buttonAdd.setId(this.file.getText());
+            this.folderToAdd.setText(path);
+            if(this.folderToAdd != null && this.add != null) {
+                this.add.setId(this.folderToAdd.getText());
             }
         });
+        this.addBox = new HBox(10 );
+        this.addBox.getChildren().add(this.folderToAdd);
+        this.addBox.getChildren().add(this.directoryChoose);
+        this.addBox.getChildren().add(this.add);
+        this.addBox.setAlignment(Pos.TOP_CENTER);
+    }
 
-        //configure explorer button box
-        HBox fileExplorerBox = new HBox();
-        fileExplorerBox.setAlignment(Pos.TOP_CENTER);
-        fileExplorerBox.getChildren().add(fileExplorer);
+    public void setRemoveBox(){
+        //file name selected removal
+        this.folderToRemove = new Text();
+        this.folderToRemove.prefWidth(200);
 
-        //button add
-        Button buttonAdd =  new Button("Add");
-        buttonAdd.setPrefWidth(50);
-        this.buttonAdd = buttonAdd;
+        this.remove = new Button("Remove");
+        this.remove.prefWidth(100);
+        this.remove.setOnMouseClicked(this.viewModel.onPathRemove());
 
-        //button remove
-        Button buttonRemove = new Button("Del");
-        buttonRemove.setPrefWidth(50);
-        this.buttonRemove = buttonRemove;
+        this.removeBox = new HBox(10);
+        this.removeBox.getChildren().add(this.folderToRemove);
+        this.removeBox.getChildren().add(this.remove);
+        this.removeBox.setAlignment(Pos.TOP_CENTER);
+    }
 
-        fileExplorer.setPrefWidth(100);
+    public void setUsernameBox(){
 
-        this.buttonAdd.setOnMouseClicked(this.viewModel.onPathAdd());
-        this.buttonRemove.setOnMouseClicked(this.viewModel.onPathRemove());
+        this.username = new Text();
+        viewModel.getUsername().bindBidirectional(this.username.textProperty());
 
-        //add everything to the box
-        HBox hbox = new HBox();
-        hbox.setAlignment(Pos.TOP_CENTER);
-        hbox.getChildren().add(buttonAdd);
-        hbox.getChildren().add(buttonRemove);
+        this.username.setText("Username:");
+        this.username.prefWidth(50);
 
-        //add to root
-        this.root.getChildren().add(fileBox);
-        this.root.getChildren().add(fileExplorerBox);
-        this.root.getChildren().add(hbox);
+        this.usernameValue = new TextField();
+        this.usernameValue.setPrefWidth(150);
+        this.usernameSet = new Button("Set");
+        this.usernameSet.setOnMouseClicked(this.viewModel.onSetUsername());
+
+        this.usernameBox = new HBox(10);
+        this.usernameBox.getChildren().add(this.username);
+        this.usernameBox.getChildren().add(this.usernameValue);
+        this.usernameBox.getChildren().add(this.usernameSet);
 
     }
 }

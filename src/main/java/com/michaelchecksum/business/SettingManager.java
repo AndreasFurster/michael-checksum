@@ -65,6 +65,14 @@ public class SettingManager {
                 deletePathFromSettings(path);
             }
         });
+
+        this.viewModel.setOnSetUsername(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                settingStorage.setUsername(viewModel.getUsername().get());
+            }
+        });
+
         this.gui.initializeComponent(this.viewModel);
         this.viewModel.setPaths(this.getSettings());
         this.gui.show();
