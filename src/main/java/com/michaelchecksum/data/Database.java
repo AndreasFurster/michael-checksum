@@ -33,7 +33,10 @@ class Database implements AutoCloseable {
 
         ResultSet result = statement.executeQuery();
 
-        result.first();
+        if (!result.first()){
+           throw new RuntimeException("No result found");
+        }
+
         return result.getInt("id");
     }
 
@@ -55,7 +58,7 @@ class Database implements AutoCloseable {
     }
 
     void addUserToCountry(int userId, int countryId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO user_country (user_id, country_id) VALUES (?, ?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO user_country (user_id, country_id) VALUES (?, ?)");
         statement.setInt(1, userId);
         statement.setInt(2, countryId);
 
