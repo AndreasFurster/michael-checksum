@@ -2,6 +2,13 @@ package com.michaelchecksum.data;
 import com.michaelchecksum.domain.FileValidationResult;
 import com.michaelchecksum.domain.HashType;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,8 +18,9 @@ class Database implements AutoCloseable {
 
     Database(){
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            this.connection = DriverManager.getConnection("jdbc:mariadb://185.182.57.80:3306/cornefs247_mchecksum", "cornefs247_mchecksum", "cck7C0Hi");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/michael_checksum_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 
         } catch(SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -79,6 +87,10 @@ class Database implements AutoCloseable {
         PreparedStatement statement = connection.prepareStatement("SELECT validation_result.id, validation_result.file_name, validation_result.hash_type, validation_result.hash, validation_result.validated, user.username FROM validation_result LEFT JOIN user ON validation_result.user_id = user.id");
         ResultSet result = statement.executeQuery();
 
+        return new ArrayList<>();
+
+        /*
+
         return new Iterable<FileValidationResult>() {
             @Override
             public Iterator<FileValidationResult> iterator() {
@@ -86,7 +98,12 @@ class Database implements AutoCloseable {
                     @Override
                     public boolean hasNext() {
                         try {
-                            return result.next();
+                            Boolean next = result.next();
+                            if(!next) {
+                                result.close();
+                            }
+
+                            return next;
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -111,7 +128,10 @@ class Database implements AutoCloseable {
                     }
                 };
             }
+
+
         };
+        */
     }
 
     @Override

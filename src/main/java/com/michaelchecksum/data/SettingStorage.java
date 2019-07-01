@@ -50,7 +50,10 @@ public class SettingStorage {
     public boolean deleteFilewatchPath(String path) {
         // TODO: DELETEFILEWATCHPATH
         if(this.findFolders(path)){
-            this.settings.folders.remove(path);
+            if (path != null) {
+                this.settings.folders.remove(path);
+            }
+
             this.writeNewFile();
         }
         return true;

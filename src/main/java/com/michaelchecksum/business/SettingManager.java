@@ -52,6 +52,9 @@ public class SettingManager {
             public void handle(MouseEvent t ) {
                 Button btn = (Button) t.getSource();
                 String path = btn.getId();
+
+                if(path == null) return;
+
                 addPathToSettings(path);
             }
         });

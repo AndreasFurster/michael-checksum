@@ -25,6 +25,8 @@ public class FileWatchingManager {
 
             //foreach through the pathlist
             for (String path : paths) {
+                if(path == null) continue;
+
                 FileWatcher watcher = new FileWatcher(Paths.get(path), this.fileEventListeners);
                 watcher.start();
             }
