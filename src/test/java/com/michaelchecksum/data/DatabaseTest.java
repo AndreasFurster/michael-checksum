@@ -20,51 +20,55 @@ class DatabaseTest {
 
     @Test()
     void insertUser() {
+        // Arrange
+        final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
+        final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
+
+        final Database sut = new Database(true);
+
+        // Act & Assert
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
-
-            final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
-            final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
-
             // Insert test user 1
-            _database.insertUser(user1Name);
+            sut.insertUser(user1Name);
 
             // Insert test user 2
-            _database.insertUser(user2Name);
+            sut.insertUser(user2Name);
 
-            _database.close();
+            sut.close();
         });
     }
 
     @Test
     void getUserId(){
+        // Arrange
+        final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
+        final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
+
+        final Database sut = new Database(true);
+
+        // Act & Assert
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
-
-            final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
-            final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
-
             // Insert test user 1
-            _database.insertUser(user1Name);
+            sut.insertUser(user1Name);
 
             // Insert test user 2
-            _database.insertUser(user2Name);
+            sut.insertUser(user2Name);
 
             // Get user ids
-            user1Id = _database.getUserId(user1Name);
-            user2Id = _database.getUserId(user2Name);
+            user1Id = sut.getUserId(user1Name);
+            user2Id = sut.getUserId(user2Name);
 
             // The id of test user 2 should be one more than test user 1
             assertEquals(user1Id + 1, user2Id);
 
-            _database.close();
+            sut.close();
         });
     }
 
     @Test
     void insertCountry() {
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
+            final Database _database = new Database(true);
 
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
             final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
@@ -96,7 +100,7 @@ class DatabaseTest {
     @Test
     void getCountryId() {
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
+            final Database _database = new Database(true);
 
             final String country1Name = "The Netherlands".concat(Double.toString(Math.random()));
             final String country2Name = "Belgium".concat(Double.toString(Math.random()));
@@ -122,7 +126,7 @@ class DatabaseTest {
 
     @Test
     void addUserToCountry() {
-        Database _database = new Database();
+        Database _database = new Database(true);
 
         assertDoesNotThrow(() -> {
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
@@ -171,7 +175,7 @@ class DatabaseTest {
 
     @Test
     void insertFileValidationResult() {
-        final Database _database = new Database();
+        final Database _database = new Database(true);
 
         // Try to insert without an exception
         assertDoesNotThrow(() -> {
@@ -193,7 +197,7 @@ class DatabaseTest {
 
     @Test
     void selectAllValidationResults() {
-        final Database _database = new Database();
+        final Database _database = new Database(true);
 
         assertDoesNotThrow(() -> {
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));

@@ -1,7 +1,9 @@
 package com.michaelchecksum.data;
+
 import com.michaelchecksum.domain.FileValidationResult;
 import com.michaelchecksum.domain.HashType;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -16,13 +18,23 @@ import java.util.Iterator;
 class Database implements AutoCloseable {
     private Connection connection;
 
-    Database(){
+    Database() {
+        this(false);
+    }
+
+    Database(boolean test) {
+        String dbName = test ? "michael_checksum_dev" : "michael_checksum";
+
+        connect(dbName);
+    }
+
+    private void connect(String dbName) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/michael_checksum_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 
-        } catch(SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex.getMessage());
         }
@@ -41,8 +53,8 @@ class Database implements AutoCloseable {
 
         ResultSet result = statement.executeQuery();
 
-        if (!result.first()){
-           throw new RuntimeException("No result found");
+        if (!result.first()) {
+            throw new RuntimeException("No result found");
         }
 
         return result.getInt("id");
@@ -83,55 +95,33 @@ class Database implements AutoCloseable {
 
         statement.execute();
     }
-    public Iterable<FileValidationResult> selectAllValidationResults() throws SQLException {
+
+    public ArrayList<FileValidationResult> selectAllValidationResults() throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT validation_result.id, validation_result.file_name, validation_result.hash_type, validation_result.hash, validation_result.validated, user.username FROM validation_result LEFT JOIN user ON validation_result.user_id = user.id");
-        ResultSet result = statement.executeQuery();
+        ResultSet resultSet = statement.executeQuery();
 
-        return new ArrayList<>();
+        ArrayList<FileValidationResult> result = new ArrayList<>();
 
-        /*
+        while (resultSet.next()) {
+            try {
+                String fileName = resultSet.getString("file_name");
+                String hash = resultSet.getString("hash");
+                HashType hashType = HashType.from(resultSet.getInt("hash_type"));
+                boolean succeed = resultSet.getInt("validated") == 1;
+                String username = resultSet.getString("username");
 
-        return new Iterable<FileValidationResult>() {
-            @Override
-            public Iterator<FileValidationResult> iterator() {
-                return new Iterator<FileValidationResult>() {
-                    @Override
-                    public boolean hasNext() {
-                        try {
-                            Boolean next = result.next();
-                            if(!next) {
-                                result.close();
-                            }
+                FileValidationResult item = new FileValidationResult(fileName, hash, hashType, succeed);
+                item.setUsername(username);
 
-                            return next;
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    @Override
-                    public FileValidationResult next() {
-                        try {
-                            String fileName = result.getString("file_name");
-                            String hash = result.getString("hash");
-                            HashType hashType = HashType.from(result.getInt("hash_type"));
-                            boolean succeed = result.getInt("validated") == 1;
-                            String username = result.getString("username");
-
-                            FileValidationResult result = new FileValidationResult(fileName, hash, hashType, succeed);
-                            result.setUsername(username);
-
-                            return result;
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                };
+                result.add(item);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+        }
 
+        resultSet.close();
 
-        };
-        */
+        return result;
     }
 
     @Override
