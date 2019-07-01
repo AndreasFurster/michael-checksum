@@ -110,7 +110,7 @@ public class SettingsUi extends Stage {
         this.add.prefWidth(75);
         this.add.setOnMouseClicked(this.viewModel.onPathAdd());
 
-        this.directoryChoose = new Button("Browser");
+        this.directoryChoose = new Button("Browse...");
         this.directoryChoose.prefWidth(75);
         this.directoryChoose.setOnMouseClicked(event -> {
             DirectoryChooser chooser = new DirectoryChooser();
