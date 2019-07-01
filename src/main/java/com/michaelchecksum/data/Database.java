@@ -3,6 +3,7 @@ package com.michaelchecksum.data;
 import com.michaelchecksum.domain.FileValidationResult;
 import com.michaelchecksum.domain.HashType;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -18,6 +19,16 @@ class Database implements AutoCloseable {
     private Connection connection;
 
     Database() {
+        this(false);
+    }
+
+    Database(boolean test) {
+        String dbName = test ? "michael_checksum_dev" : "michael_checksum";
+
+        connect(dbName);
+    }
+
+    private void connect(String dbName) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 

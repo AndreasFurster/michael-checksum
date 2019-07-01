@@ -24,7 +24,7 @@ class DatabaseTest {
         final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
         final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
 
-        final Database sut = new Database();
+        final Database sut = new Database(true);
 
         // Act & Assert
         assertDoesNotThrow(() -> {
@@ -44,7 +44,7 @@ class DatabaseTest {
         final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
         final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
 
-        final Database sut = new Database();
+        final Database sut = new Database(true);
 
         // Act & Assert
         assertDoesNotThrow(() -> {
@@ -68,7 +68,7 @@ class DatabaseTest {
     @Test
     void insertCountry() {
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
+            final Database _database = new Database(true);
 
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
             final String user2Name = "testuser2_".concat(Double.toString(Math.random()));
@@ -100,7 +100,7 @@ class DatabaseTest {
     @Test
     void getCountryId() {
         assertDoesNotThrow(() -> {
-            final Database _database = new Database();
+            final Database _database = new Database(true);
 
             final String country1Name = "The Netherlands".concat(Double.toString(Math.random()));
             final String country2Name = "Belgium".concat(Double.toString(Math.random()));
@@ -126,7 +126,7 @@ class DatabaseTest {
 
     @Test
     void addUserToCountry() {
-        Database _database = new Database();
+        Database _database = new Database(true);
 
         assertDoesNotThrow(() -> {
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
@@ -175,7 +175,7 @@ class DatabaseTest {
 
     @Test
     void insertFileValidationResult() {
-        final Database _database = new Database();
+        final Database _database = new Database(true);
 
         // Try to insert without an exception
         assertDoesNotThrow(() -> {
@@ -197,7 +197,7 @@ class DatabaseTest {
 
     @Test
     void selectAllValidationResults() {
-        final Database _database = new Database();
+        final Database _database = new Database(true);
 
         assertDoesNotThrow(() -> {
             final String user1Name = "testuser1_".concat(Double.toString(Math.random()));
